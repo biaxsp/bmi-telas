@@ -3,4 +3,12 @@
     <string name="welcome">Bienvenue!</string>
     <string name="your_name">Quel est votre nom?</string>
     <string name="next">Suivant</string>
+    <string name="test">Next</string>
+    <string name="hi">Salut</string>
+    <string name="male">Mâle</string>
+    <string name="female">Femelle</string>
+    <string name="age">Âge</string>
+    <string name="weight">Poids</string>
+    <string name="height">Taille</string>
+    <string name="calculate">Calculer</string>
 </resources>
