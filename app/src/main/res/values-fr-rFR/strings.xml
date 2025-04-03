@@ -11,4 +11,6 @@
     <string name="weight">Poids</string>
     <string name="height">Taille</string>
     <string name="calculate">Calculer</string>
+    <string name="your_result">Your BMI Result</string>
+    <string name="new_calculate">New calculate</string>
 </resources>

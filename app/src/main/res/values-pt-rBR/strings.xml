@@ -11,4 +11,6 @@
     <string name="weight">Peso</string>
     <string name="height">Altura</string>
     <string name="calculate">Calcular</string>
+    <string name="your_result">Resultados do seu IMC</string>
+    <string name="new_calculate">Novo cálculo</string>
 </resources>

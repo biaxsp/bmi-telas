@@ -59,4 +59,7 @@ dependencies {
 
     // Libs extras
     implementation(libs.androidx.material.icons.extended.android)
+
+    // Lib para navegação
+    implementation("androidx.navigation:navigation-compose:2.8.9")
 }
