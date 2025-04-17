@@ -13,4 +13,10 @@
     <string name="calculate">Calcular</string>
     <string name="your_result">Resultados do seu IMC</string>
     <string name="new_calculate">Novo cálculo</string>
+    <string name="under_weight">Você está abaixo do peso ideal!</string>
+    <string name="normal_weight">Parabéns, você está com o peso normal!</string>
+    <string name="over_weight">Você está um pouquinho acima do peso!</string>
+    <string name="class1_weight">Cuidado, você está com obesidade Nível I!</string>
+    <string name="class2_weight">Cuidado, você está com obesidade Nível II!</string>
+    <string name="class3_weight">Cuidado, você está com obesidade Nível III!</string>
 </resources>

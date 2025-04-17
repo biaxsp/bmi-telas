@@ -32,13 +32,26 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import br.senai.sp.jandira.bmi_ds2aita.R
+import br.senai.sp.jandira.bmi_ds2aita.calcs.bmiCalculate
+import br.senai.sp.jandira.bmi_ds2aita.utils.numberConvertToLocale
 
 @Composable
-fun BMIResultScreen(modifier: Modifier = Modifier) {
+fun BMIResultScreen(navegacao: NavHostController?) {
 
-    val userFile = LocalContext.current.getSharedPreferences("user_file", Context.MODE_PRIVATE)
-    val peso = userFile.getFloat("user_weight", 0.0f)
+    val userFile = LocalContext.current
+        .getSharedPreferences("user_file", Context.MODE_PRIVATE)
+
+    val userHeight = userFile.getFloat("user_height", 0.0f)
+    val userWeight = userFile.getFloat("user_weight", 0.0f)
+    val userAge = userFile.getInt("user_age", 0)
+
+    // Obter os dados do imc do usuário
+    val result = bmiCalculate(
+        userWeight.toInt(),
+        userHeight.toDouble().div(100)
+    )
 
     Box(
         modifier = Modifier
@@ -95,7 +108,7 @@ fun BMIResultScreen(modifier: Modifier = Modifier) {
                         shape = CircleShape,
                         border = BorderStroke(
                             width = 4.dp,
-                            color = Color(0xFFFF9800)
+                            color = result.color
                         )
                     ) {
                         Column(
@@ -105,12 +118,19 @@ fun BMIResultScreen(modifier: Modifier = Modifier) {
                                 .fillMaxSize()
                         ) {
                             Text(
-                                text = "30,6",
+                                text = numberConvertToLocale(result.bmi.second),
                                 fontSize = 48.sp,
                                 fontWeight = FontWeight.Bold
                             )
                         }
                     }
+                    Text(
+                        text = result.bmi.first,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = result.color,
+                        modifier = Modifier.padding(top = 8.dp)
+                    )
                     Card(
                         modifier = Modifier
                             .padding(top = 16.dp)
@@ -137,7 +157,7 @@ fun BMIResultScreen(modifier: Modifier = Modifier) {
                                     text = stringResource(R.string.age)
                                 )
                                 Text(
-                                    text = "23",
+                                    text = "$userAge",
                                     fontSize = 24.sp,
                                     fontWeight = FontWeight.Bold
                                 )
@@ -154,7 +174,7 @@ fun BMIResultScreen(modifier: Modifier = Modifier) {
                                     text = stringResource(R.string.weight)
                                 )
                                 Text(
-                                    text = "68 Kg",
+                                    text = "$userWeight Kg",
                                     fontSize = 24.sp,
                                     fontWeight = FontWeight.Bold
                                 )
@@ -171,7 +191,7 @@ fun BMIResultScreen(modifier: Modifier = Modifier) {
                                     text = stringResource(R.string.height)
                                 )
                                 Text(
-                                    text = "1,71",
+                                    text = "$userHeight",
                                     fontSize = 24.sp,
                                     fontWeight = FontWeight.Bold
                                 )
@@ -211,5 +231,5 @@ fun BMIResultScreen(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun BMIResultScreenPreview() {
-    BMIResultScreen()
+    BMIResultScreen(null)
 }

@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Balance
 import androidx.compose.material.icons.filled.Height
@@ -27,6 +28,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -35,18 +38,33 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import br.senai.sp.jandira.bmi_ds2aita.R
 
 @Composable
-fun UserDataScreen(modifier: Modifier = Modifier) {
+fun UserDataScreen(navegacao: NavHostController?) {
 
     val context = LocalContext.current
     val userFile = context
         .getSharedPreferences("user_file", Context.MODE_PRIVATE)
     val userName = userFile.getString("user_name", "")
+
+    var ageState = remember {
+        mutableStateOf("")
+    }
+
+    var weightState = remember {
+        mutableStateOf("")
+    }
+
+    var heightState = remember {
+        mutableStateOf("")
+    }
 
     Box(
         modifier = Modifier
@@ -176,8 +194,10 @@ fun UserDataScreen(modifier: Modifier = Modifier) {
                             .fillMaxWidth()
                     ) {
                         OutlinedTextField(
-                            value = "",
-                            onValueChange = {},
+                            value = ageState.value,
+                            onValueChange = {
+                                ageState.value = it
+                            },
                             modifier = Modifier
                                 .fillMaxWidth(),
                             leadingIcon = {
@@ -192,11 +212,17 @@ fun UserDataScreen(modifier: Modifier = Modifier) {
                                     text = stringResource(R.string.age)
                                 )
                             },
-                            shape = RoundedCornerShape(16.dp)
+                            shape = RoundedCornerShape(16.dp),
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Number,
+                                imeAction = ImeAction.Next
+                            )
                         )
                         OutlinedTextField(
-                            value = "",
-                            onValueChange = {},
+                            value = weightState.value,
+                            onValueChange = {
+                                weightState.value = it
+                            },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(vertical = 8.dp),
@@ -212,11 +238,17 @@ fun UserDataScreen(modifier: Modifier = Modifier) {
                                     text = stringResource(R.string.weight)
                                 )
                             },
-                            shape = RoundedCornerShape(16.dp)
+                            shape = RoundedCornerShape(16.dp),
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Number,
+                                imeAction = ImeAction.Next
+                            )
                         )
                         OutlinedTextField(
-                            value = "",
-                            onValueChange = {},
+                            value = heightState.value,
+                            onValueChange = {
+                                heightState.value = it
+                            },
                             modifier = Modifier
                                 .fillMaxWidth(),
                             leadingIcon = {
@@ -231,12 +263,23 @@ fun UserDataScreen(modifier: Modifier = Modifier) {
                                     text = stringResource(R.string.height)
                                 )
                             },
-                            shape = RoundedCornerShape(16.dp)
+                            shape = RoundedCornerShape(16.dp),
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Number,
+                                imeAction = ImeAction.Done
+                            )
                         )
 
                     }
                     Button(
-                        onClick = {},
+                        onClick = {
+                            val editor = userFile.edit()
+                            editor.putInt("user_age", ageState.value.toInt())
+                            editor.putFloat("user_weight", weightState.value.toFloat())
+                            editor.putFloat("user_height", heightState.value.toFloat())
+                            editor.apply()
+                            navegacao!!.navigate("bmi_result")
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(48.dp),
@@ -256,5 +299,5 @@ fun UserDataScreen(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 private fun UserDataScreenPreview() {
-    UserDataScreen()
+    UserDataScreen(null)
 }
