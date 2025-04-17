@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -27,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,6 +38,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import br.senai.sp.jandira.bmi_ds2aita.R
 import br.senai.sp.jandira.bmi_ds2aita.calcs.bmiCalculate
+import br.senai.sp.jandira.bmi_ds2aita.model.BmiStatus
 import br.senai.sp.jandira.bmi_ds2aita.utils.numberConvertToLocale
 
 @Composable
@@ -59,8 +63,8 @@ fun BMIResultScreen(navegacao: NavHostController?) {
             .background(
                 brush = Brush.linearGradient(
                     listOf(
-                        Color(0xFF673AB7),
-                        Color(0xFF9C27B0),
+                        Color(0xFF7CD9BF),
+                        Color(0xFFC0EEDA),
                     )
                 )
             ),
@@ -202,19 +206,61 @@ fun BMIResultScreen(navegacao: NavHostController?) {
                         modifier = Modifier
                             .padding(top = 16.dp, bottom = 16.dp)
                             .background(
-                                Color.LightGray
+                                Color.Transparent
                             )
                             .fillMaxWidth()
                             .height(250.dp)
-                    ) {  }
+                    ) {
+                        BmiLevel(
+                            leftText = "Ünderweight",
+                            righText = "< 18.5",
+                            bulletColor = colorResource(R.color.light_blue),
+                            background = if(result.status == BmiStatus.UNDER_WEIGHT) colorResource(R.color.light_blue) else Color.Transparent
+                        )
+                        BmiLevel(
+                            leftText = "Normal",
+                            righText =  "18.6 - 24.9",
+                            bulletColor = colorResource(R.color.light_green),
+                            background = if(result.status == BmiStatus.UNDER_WEIGHT) colorResource(R.color.light_green) else Color.Transparent
+                        )
+                        BmiLevel(
+                            leftText = "Overweigth",
+                            righText =  "25.0 - 29.9",
+                            bulletColor = colorResource(R.color.yellow),
+                            background = if(result.status == BmiStatus.UNDER_WEIGHT) colorResource(R.color.yellow) else Color.Transparent
+
+                        )
+                        BmiLevel(
+                            leftText = "Obesity Class I",
+                            righText =  "30.0 - 34.9",
+                            bulletColor = colorResource(R.color.yellow),
+                            background = if(result.status == BmiStatus.UNDER_WEIGHT) colorResource(R.color.yellow) else Color.Transparent
+
+                        )
+                        BmiLevel(
+                            leftText = "Obesity Class II",
+                            righText =  "35.0 - 39.9",
+                            bulletColor = colorResource(R.color.light_orange),
+                            background = if(result.status == BmiStatus.UNDER_WEIGHT) colorResource(R.color.light_orange) else Color.Transparent
+                        )
+                        BmiLevel(
+                            leftText = "Obesity Class III",
+                            righText =  ">39.9",
+                            bulletColor = colorResource(R.color.dark_orange),
+                            background = if(result.status == BmiStatus.UNDER_WEIGHT) colorResource(R.color.dark_orange) else Color.Transparent
+                        )
+
+                    }
                     HorizontalDivider()
                     Button(
                         onClick = {},
+                        colors =  ButtonDefaults.buttonColors(containerColor = Color.Blue),
                         modifier = Modifier
                             .padding(top = 16.dp)
                             .fillMaxWidth()
                             .height(48.dp),
                         shape = RoundedCornerShape(8.dp)
+
                     ) {
                         Text(
                             text = stringResource(R.string.new_calculate),
